@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<title>Virtual Private Nexus</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#070611;
+    color:#fff;
+    min-height:100vh;
+}
+
+.app{
+    max-width:430px;
+    min-height:100vh;
+    margin:auto;
+    padding:20px 17px 100px;
+
+    background:
+    radial-gradient(
+        circle at 50% 12%,
+        #29214b 0%,
+        transparent 34%
+    ),
+    #070611;
+}
+
+/* HEADER */
+
+.header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:18px;
+    font-weight:800;
+}
+
+.logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#6654d9;
+    font-size:19px;
+}
+
+.logo-text span{
+    display:block;
+    color:#8276b1;
+    font-size:9px;
+    font-weight:500;
+    letter-spacing:1px;
+    margin-top:3px;
+}
+
+.menu-btn{
+    width:43px;
+    height:43px;
+
+    border:1px solid #292442;
+    background:#100e1d;
+    border-radius:13px;
+
+    color:#fff;
+    font-size:24px;
+    cursor:pointer;
+}
+
+/* 3 DOT MENU */
+
+.menu-box{
+    position:absolute;
+    right:18px;
+    top:72px;
+
+    width:205px;
+
+    background:#100e1d;
+    border:1px solid #332c50;
+    border-radius:17px;
+
+    padding:7px;
+
+    display:none;
+
+    z-index:100;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.65);
+}
+
+.menu-box button{
+    width:100%;
+    border:0;
+    background:transparent;
+
+    color:#ddd9e9;
+
+    text-align:left;
+
+    padding:13px;
+
+    border-radius:10px;
+
+    font-size:13px;
+
+    cursor:pointer;
+}
+
+.menu-box button:hover{
+    background:#1a1630;
+    color:#9c87ff;
+}
+
+/* PAGE */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* HOME */
+
+.status{
+    text-align:center;
+    margin-top:42px;
+}
+
+.status small{
+    color:#7e7892;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.status h1{
+    font-size:27px;
+    margin-top:8px;
+}
+
+.status p{
+    color:#7e7892;
+    margin-top:7px;
+    font-size:13px;
+}
+
+/* VPN AREA */
+
+.vpn-area{
+    width:220px;
+    height:220px;
+
+    margin:32px auto;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#111022;
+
+    border:1px solid #292442;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.35);
+}
+
+/* SIMPLE REALISTIC BUTTON */
+
+.connect{
+    width:132px;
+    height:132px;
+
+    border-radius:50%;
+
+    border:0;
+
+    cursor:pointer;
+
+    background:#6654d9;
+
+    color:#fff;
+
+    font-size:15px;
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+    box-shadow:
+    0 8px 22px rgba(102,84,217,.28);
+
+    transition:.2s ease;
+}
+
+.connect:hover{
+    background:#7564e8;
+    transform:scale(1.03);
+}
+
+.connect:active{
+    transform:scale(.96);
+}
+
+/* CONNECTED BUTTON */
+
+.connect.connected{
+    background:#252039;
+    color:#a89cff;
+
+    box-shadow:
+    0 8px 22px rgba(0,0,0,.3);
+
+    border:1px solid #423873;
+}
+
+/* SERVER */
+
+.server{
+    background:#100e1d;
+
+    border:1px solid #292442;
+
+    border-radius:18px;
+
+    padding:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    cursor:pointer;
+}
+
+.server-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.flag{
+    width:46px;
+    height:46px;
+
+    border-radius:13px;
+
+    background:#19152b;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:23px;
+}
+
+.server b{
+    font-size:14px;
+}
+
+.server small{
+    display:block;
+
+    color:#7e7892;
+
+    margin-top:5px;
+
+    font-size:11px;
+}
+
+.arrow{
+    color:#82799d;
+    font-size:24px;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:11px;
+
+    margin-top:12px;
+}
+
+.card{
+    background:#100e1d;
+
+    border:1px solid #292442;
+
+    border-radius:16px;
+
+    padding:15px;
+}
+
+.card span{
+    color:#7e7892;
+
+    font-size:10px;
+
+    letter-spacing:.7px;
+}
+
+.card strong{
+    display:block;
+
+    margin-top:8px;
+
+    font-size:17px;
+}
+
+/* PAGE TITLE */
+
+.page-title{
+    margin-top:30px;
+
+    font-size:27px;
+}
+
+.page-sub{
+    color:#7e7892;
+
+    margin-top:7px;
+
+    font-size:13px;
+}
+
+/* SETTINGS */
+
+.setting-card{
+    margin-top:19px;
+
+    background:#100e1d;
+
+    border:1px solid #292442;
+
+    border-radius:17px;
+
+    overflow:hidden;
+}
+
+.setting{
+    padding:16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    border-bottom:1px solid #211d33;
+}
+
+.setting:last-child{
+    border-bottom:0;
+}
+
+.setting-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.setting-icon{
+    width:40px;
+    height:40px;
+
+    border-radius:12px;
+
+    background:#19152b;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:17px;
+}
+
+.setting b{
+    font-size:13px;
+}
+
+.setting small{
+    display:block;
+
+    color:#77718a;
+
+    margin-top:4px;
+
+    font-size:11px;
+}
+
+/* SWITCH */
+
+.switch{
+    width:46px;
+    height:26px;
+
+    background:#302c3b;
+
+    border-radius:30px;
+
+    padding:3px;
+
+    cursor:pointer;
+}
+
+.switch i{
+    display:block;
+
+    width:20px;
+    height:20px;
+
+    background:#fff;
+
+    border-radius:50%;
+
+    transition:.2s;
+}
+
+.switch.on{
+    background:#765fe2;
+}
+
+.switch.on i{
+    transform:translateX(20px);
+}
+
+/* INFO */
+
+.info-card{
+    margin-top:19px;
+
+    padding:19px;
+
+    background:#100e1d;
+
+    border:1px solid #292442;
+
+    border-radius:17px;
+}
+
+.info-card h3{
+    margin-bottom:10px;
+
+    font-size:16px;
+}
+
+.info-card p{
+    color:#928ca1;
+
+    line-height:1.7;
+
+    font-size:13px;
+}
+
+.email{
+    color:#9c87ff !important;
+
+    font-weight:bold;
+}
+
+/* BACK */
+
+.back{
+    margin-top:19px;
+
+    width:100%;
+
+    border:1px solid #322a51;
+
+    background:#16122a;
+
+    color:#fff;
+
+    padding:14px;
+
+    border-radius:13px;
+
+    cursor:pointer;
+}
+
+/* SERVER MODAL */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.78);
+
+    display:none;
+
+    align-items:flex-end;
+
+    justify-content:center;
+
+    z-index:200;
+}
+
+.modal-box{
+    width:min(430px,100%);
+
+    background:#100e1d;
+
+    border:1px solid #332c50;
+
+    border-radius:24px 24px 0 0;
+
+    padding:21px;
+
+    max-height:80vh;
+
+    overflow:auto;
+}
+
+.modal-box h2{
+    font-size:21px;
+
+    margin-bottom:7px;
+}
+
+.modal-box > p{
+    color:#77718a;
+
+    font-size:12px;
+}
+
+.close{
+    float:right;
+
+    background:#1a1630;
+
+    border:0;
+
+    color:#fff;
+
+    width:34px;
+    height:34px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:19px;
+}
+
+.server-option{
+    padding:14px;
+
+    margin-top:10px;
+
+    background:#151229;
+
+    border:1px solid #2c2644;
+
+    border-radius:14px;
+
+    cursor:pointer;
+}
+
+.server-option:hover{
+    border-color:#8671ed;
+}
+
+.server-option small{
+    display:block;
+
+    color:#77718a;
+
+    margin-top:5px;
+}
+
+/* BOTTOM NAV */
+
+.bottom{
+    position:fixed;
+
+    bottom:12px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:min(396px,calc(100% - 30px));
+
+    background:#0d0b18;
+
+    border:1px solid #292442;
+
+    border-radius:19px;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    padding:10px 5px;
+
+    z-index:50;
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.55);
+}
+
+.nav{
+    text-align:center;
+
+    color:#706a80;
+
+    font-size:10px;
+
+    cursor:pointer;
+
+    min-width:75px;
+}
+
+.nav div{
+    font-size:19px;
+
+    margin-bottom:4px;
+}
+
+.nav.active{
+    color:#9c87ff;
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ◈
+        </div>
+
+        <div class="logo-text">
+
+            Virtual Private Nexus
+
+            <span>
+                SECURE CONNECTION
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="menu-btn"
+        onclick="toggleMenu()">
+
+        ⋮
+
+    </button>
+
+</div>
+
+
+<!-- MENU -->
+
+<div class="menu-box" id="menuBox">
+
+    <button onclick="openPage('settings')">
+        ⚙️ Settings
+    </button>
+
+    <button onclick="openPage('contact')">
+        ✉️ Contact Us
+    </button>
+
+    <button onclick="openPage('privacy')">
+        🔒 Privacy Policy
+    </button>
+
+    <button onclick="openPage('terms')">
+        📄 Terms of Service
+    </button>
+
+    <button onclick="openPage('about')">
+        ℹ️ About VPN
+    </button>
+
+</div>
+
+
+<!-- HOME -->
+
+<div id="home" class="page active">
+
+    <div class="status">
+
+        <small>
+            CONNECTION STATUS
+        </small>
+
+        <h1 id="statusText">
+            Not Connected
+        </h1>
+
+        <p id="statusSub">
+            Your connection is not protected
+        </p>
+
+    </div>
+
+
+    <div class="vpn-area">
+
+        <button
+            class="connect"
+            id="connectBtn"
+            onclick="toggleVPN()">
+
+            CONNECT
+
+        </button>
+
+    </div>
+
+
+    <div
+        class="server"
+        onclick="openServers()">
+
+        <div class="server-left">
+
+            <div
+                class="flag"
+                id="flag">
+
+                🇩🇪
+
+            </div>
+
+
+            <div>
+
+                <b id="serverName">
+                    Germany
+                </b>
+
+                <small id="serverPing">
+                    24 ms • Excellent
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="arrow">
+            ›
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="card">
+
+            <span>
+                DOWNLOAD
+            </span>
+
+            <strong id="download">
+                0 Mbps
+            </strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <span>
+                UPLOAD
+            </span>
+
+            <strong id="upload">
+                0 Mbps
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SETTINGS -->
+
+<div id="settings" class="page">
+
+    <h1 class="page-title">
+        Settings
+    </h1>
+
+    <p class="page-sub">
+        Manage your VPN preferences
+    </p>
+
+
+    <div class="setting-card">
+
+        <div class="setting">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    🔔
+                </div>
+
+                <div>
+
+                    <b>
+                        Notifications
+                    </b>
+
+                    <small>
+                        Connection notifications
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="switch on"
+                onclick="toggleSwitch(this)">
+
+                <i></i>
+
+            </div>
+
+        </div>
+
+
+        <div class="setting">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    ⚡
+                </div>
+
+                <div>
+
+                    <b>
+                        Auto Connect
+                    </b>
+
+                    <small>
+                        Connect when VPN starts
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="switch"
+                onclick="toggleSwitch(this)">
+
+                <i></i>
+
+            </div>
+
+        </div>
+
+
+        <div class="setting">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    🛡️
+                </div>
+
+                <div>
+
+                    <b>
+                        Kill Switch
+                    </b>
+
+                    <small>
+                        Protect when VPN disconnects
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="switch"
+                onclick="toggleSwitch(this)">
+
+                <i></i>
+
+            </div>
+
+        </div>
+
+
+        <div class="setting">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    🌐
+                </div>
+
+                <div>
+
+                    <b>
+                        VPN Protocol
+                    </b>
+
+                    <small>
+                        Connection protocol
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <span style="color:#9c87ff">
+                Auto
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="setting-card">
+
+        <div
+            class="setting"
+            onclick="openPage('privacy')">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    🔒
+                </div>
+
+                <div>
+
+                    <b>
+                        Privacy Policy
+                    </b>
+
+                    <small>
+                        Learn about your privacy
+                    </small>
+
+                </div>
+
+            </div>
+
+            <span>
+                ›
+            </span>
+
+        </div>
+
+
+        <div
+            class="setting"
+            onclick="openPage('terms')">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    📄
+                </div>
+
+                <div>
+
+                    <b>
+                        Terms of Service
+                    </b>
+
+                    <small>
+                        Service terms
+                    </small>
+
+                </div>
+
+            </div>
+
+            <span>
+                ›
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CONTACT -->
+
+<div id="contact" class="page">
+
+    <h1 class="page-title">
+        Contact Us
+    </h1>
+
+    <p class="page-sub">
+        We're here to help.
+    </p>
+
+
+    <div class="info-card">
+
+        <h3>
+            📩 Support
+        </h3>
+
+        <p>
+            For support, suggestions, partnership
+            requests or other questions, contact our
+            support team.
+        </p>
+
+        <br>
+
+        <p class="email">
+            support@virtualprivatenexus.com
+        </p>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <h3>
+            💬 Connection Help
+        </h3>
+
+        <p>
+            If your VPN is not connecting, check your
+            internet connection and try another server.
+        </p>
+
+    </div>
+
+
+    <button
+        class="back"
+        onclick="openPage('home')">
+
+        ← Back to Home
+
+    </button>
+
+</div>
+
+
+<!-- PRIVACY -->
+
+<div id="privacy" class="page">
+
+    <h1 class="page-title">
+        Privacy Policy
+    </h1>
+
+    <p class="page-sub">
+        Last updated: August 2026
+    </p>
+
+
+    <div class="info-card">
+
+        <h3>
+            Your Privacy
+        </h3>
+
+        <p>
+            Virtual Private Nexus is designed with
+            privacy in mind. This demo interface does
+            not collect personal information through
+            this HTML interface.
+        </p>
+
+        <br>
+
+        <h3>
+            Information Collection
+        </h3>
+
+        <p>
+            If the final VPN service collects account,
+            diagnostic, payment, analytics or connection
+            information, the final privacy policy should
+            clearly explain what is collected, why it is
+            collected and how it is used.
+        </p>
+
+        <br>
+
+        <h3>
+            Third-Party Services
+        </h3>
+
+        <p>
+            Third-party services, advertising networks
+            or analytics tools may have separate privacy
+            policies.
+        </p>
+
+    </div>
+
+
+    <button
+        class="back"
+        onclick="openPage('home')">
+
+        ← Back to Home
+
+    </button>
+
+</div>
+
+
+<!-- TERMS -->
+
+<div id="terms" class="page">
+
+    <h1 class="page-title">
+        Terms of Service
+    </h1>
+
+    <p class="page-sub">
+        Please use the service responsibly.
+    </p>
+
+
+    <div class="info-card">
+
+        <h3>
+            Acceptable Use
+        </h3>
+
+        <p>
+            Users must not use the service for illegal
+            activities, fraud, attacks, abuse or activities
+            that violate applicable laws.
+        </p>
+
+        <br>
+
+        <h3>
+            Service Availability
+        </h3>
+
+        <p>
+            Connection speed and availability may vary
+            depending on the selected server, network
+            conditions and location.
+        </p>
+
+        <br>
+
+        <h3>
+            Changes
+        </h3>
+
+        <p>
+            Virtual Private Nexus may update features,
+            servers and these terms when necessary.
+        </p>
+
+    </div>
+
+
+    <button
+        class="back"
+        onclick="openPage('home')">
+
+        ← Back to Home
+
+    </button>
+
+</div>
+
+
+<!-- ABOUT -->
+
+<div id="about" class="page">
+
+    <h1 class="page-title">
+        About
+    </h1>
+
+    <p class="page-sub">
+        Virtual Private Nexus
+    </p>
+
+
+    <div class="info-card">
+
+        <h3>
+            ◈ Virtual Private Nexus
+        </h3>
+
+        <p>
+            A modern VPN application concept focused on
+            a simple, clean and secure user experience.
+        </p>
+
+        <br>
+
+        <p>
+            Version: 1.0.0
+        </p>
+
+    </div>
+
+
+    <button
+        class="back"
+        onclick="openPage('home')">
+
+        ← Back to Home
+
+    </button>
+
+</div>
+
+
+<!-- SERVER MODAL -->
+
+<div
+    class="modal"
+    id="serverModal"
+    onclick="closeModal(event)">
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeServers()">
+
+            ×
+
+        </button>
+
+
+        <h2>
+            Choose Server
+        </h2>
+
+        <p>
+            Select your preferred location
+        </p>
+
+
+        <div
+            class="server-option"
+            onclick="selectServer(0)">
+
+            🇩🇪 Germany
+
+            <small>
+                24 ms • Excellent
+            </small>
+
+        </div>
+
+
+        <div
+            class="server-option"
+            onclick="selectServer(1)">
+
+            🇳🇱 Netherlands
+
+            <small>
+                31 ms • Excellent
+            </small>
+
+        </div>
+
+
+        <div
+            class="server-option"
+            onclick="selectServer(2)">
+
+            🇸🇬 Singapore
+
+            <small>
+                68 ms • Good
+            </small>
+
+        </div>
+
+
+        <div
+            class="server-option"
+            onclick="selectServer(3)">
+
+            🇬🇧 United Kingdom
+
+            <small>
+                92 ms • Good
+            </small>
+
+        </div>
+
+
+        <div
+            class="server-option"
+            onclick="selectServer(4)">
+
+            🇺🇸 United States
+
+            <small>
+                145 ms • Fair
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- BOTTOM NAV -->
+
+<div class="bottom">
+
+    <div
+        class="nav active"
+        onclick="openPage('home')">
+
+        <div>
+            ⌂
+        </div>
+
+        Home
+
+    </div>
+
+
+    <div
+        class="nav"
+        onclick="openServers()">
+
+        <div>
+            🌐
+        </div>
+
+        Servers
+
+    </div>
+
+
+    <div
+        class="nav"
+        onclick="openPage('settings')">
+
+        <div>
+            ⚙
+        </div>
+
+        Settings
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* VPN STATE */
+
+let connected=false;
+
+
+/* SERVERS */
+
+const servers=[
+
+    ["🇩🇪","Germany","24 ms • Excellent"],
+
+    ["🇳🇱","Netherlands","31 ms • Excellent"],
+
+    ["🇸🇬","Singapore","68 ms • Good"],
+
+    ["🇬🇧","United Kingdom","92 ms • Good"],
+
+    ["🇺🇸","United States","145 ms • Fair"]
+
+];
+
+
+/* MENU */
+
+function toggleMenu(){
+
+    const box=
+    document.getElementById("menuBox");
+
+    box.style.display=
+    box.style.display==="block"
+    ?"none"
+    :"block";
+}
+
+
+/* PAGE */
+
+function openPage(page){
+
+    document
+    .querySelectorAll(".page")
+    .forEach(p=>{
+        p.classList.remove("active");
+    });
+
+    document
+    .getElementById(page)
+    .classList.add("active");
+
+    document
+    .getElementById("menuBox")
+    .style.display="none";
+
+    window.scrollTo(0,0);
+}
+
+
+/* CONNECT */
+
+function toggleVPN(){
+
+    connected=!connected;
+
+    const status=
+    document.getElementById("statusText");
+
+    const sub=
+    document.getElementById("statusSub");
+
+    const btn=
+    document.getElementById("connectBtn");
+
+
+    if(connected){
+
+        status.innerHTML="Connected";
+
+        status.style.color="#9c87ff";
+
+        sub.innerHTML=
+        "Your connection is protected";
+
+        btn.innerHTML="DISCONNECT";
+
+        btn.classList.add("connected");
+
+        document
+        .getElementById("download")
+        .innerHTML="48.6 Mbps";
+
+        document
+        .getElementById("upload")
+        .innerHTML="21.4 Mbps";
+
+    }else{
+
+        status.innerHTML="Not Connected";
+
+        status.style.color="#fff";
+
+        sub.innerHTML=
+        "Your connection is not protected";
+
+        btn.innerHTML="CONNECT";
+
+        btn.classList.remove("connected");
+
+        document
+        .getElementById("download")
+        .innerHTML="0 Mbps";
+
+        document
+        .getElementById("upload")
+        .innerHTML="0 Mbps";
+    }
+}
+
+
+/* SERVER MODAL */
+
+function openServers(){
+
+    document
+    .getElementById("serverModal")
+    .style.display="flex";
+}
+
+function closeServers(){
+
+    document
+    .getElementById("serverModal")
+    .style.display="none";
+}
+
+function closeModal(e){
+
+    if(e.target.id==="serverModal"){
+        closeServers();
+    }
+}
+
+
+/* SELECT SERVER */
+
+function selectServer(index){
+
+    document
+    .getElementById("flag")
+    .innerHTML=servers[index][0];
+
+    document
+    .getElementById("serverName")
+    .innerHTML=servers[index][1];
+
+    document
+    .getElementById("serverPing")
+    .innerHTML=servers[index][2];
+
+    closeServers();
+}
+
+
+/* SETTINGS SWITCH */
+
+function toggleSwitch(el){
+
+    el.classList.toggle("on");
+}
+
+</script>
+
+</body>
+</html>
